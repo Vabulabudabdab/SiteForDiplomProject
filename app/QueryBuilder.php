@@ -108,31 +108,29 @@ Class QueryBuilder {
         return $result;
     }
 
-
-    public function update($data, $id, $table) {
+    public function update($table,$data, $id) {
 
         $update = $this->queryFactory->newUpdate();
 
         $update
             ->table($table)
             ->cols($data)
-            ->where('id = :id')
-            ->bindValue('id', $id);
+            ->where('id = :id');
 
         $sth = $this->pdo->prepare($update->getStatement());
 
         $sth->execute($update->getBindValues());
     }
 
-    public function updateAvatar($data, $id, $avatar, $table) {
+    public function updateAva($table,$data, $id, $avatar) {
 
         $update = $this->queryFactory->newUpdate();
 
         $update
             ->table($table)
             ->cols($data)
-            ->where('id = :id')
-            ->bindValue('avatar', $avatar);
+            ->set('avatar = :avatar,', ['avatar' => $avatar])
+            ->where('id = :id', ['id' => $id]);
 
         $sth = $this->pdo->prepare($update->getStatement());
 

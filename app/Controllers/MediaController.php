@@ -16,10 +16,10 @@ class MediaController {
 
     public function media() {
 
-        $id = $_GET['id'];
-        $avatar = $_GET['avatar'];
+        $id = $_POST['id'];
+        $avatar = $_POST['avatar'];
 
-        $this->querybuilder->updateAvatar('avatar', $avatar, "addUser");
+        $this->querybuilder->updateAva('addUser','avatar',$id,$avatar);
     }
 
 }

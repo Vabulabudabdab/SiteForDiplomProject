@@ -39,7 +39,7 @@
             </h1>
 
         </div>
-        <form action="../Controllers/MediaController.php" method="GET">
+        <form action="../Controllers/MediaController.php" method="post" enctype='multipart/form-data'>
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">

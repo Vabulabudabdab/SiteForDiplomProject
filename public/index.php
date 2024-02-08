@@ -45,6 +45,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/users', ['App\Controllers\HomeController', 'users']);
     $r->addRoute('GET', '/addUser', ['App\Controllers\HomeController', 'addUser']);
     $r->addRoute('GET', '/media/', ['App\Controllers\HomeController', 'media']);
+
     $r->addRoute('GET', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
     $r->addRoute("POST", '/Controllers/RegisterUser.php', ['App\Controllers\RegisterUser', 'registerUser']);
 
