@@ -81,6 +81,7 @@ class HomeController {
         header("Location:/users");
         $this->auth->logOut();
         $this->auth->destroySession();
+        session_destroy();
     }
 
 
