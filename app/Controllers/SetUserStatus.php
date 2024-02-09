@@ -14,19 +14,17 @@ class SetUserStatus {
         $this->querybuilder = $queryBuilder;
     }
 
-    public function media() {
+    public function setStatus() {
 
         $id = $_GET['id'];
 
-        $file = $_FILES['file'];
-
-        $name = $file['name'];
-
-        $pathFile = __DIR__.'./img/'.$name;
+        $status = $_GET['status'];
 
 
-        $this->querybuilder->update("addUser", ['avatar' => $name], $id);
+        $this->querybuilder->update("addUser", ['status' => $status], $id);
         $this->querybuilder->loadImage();
+
+        $_SESSION['successAdd'] = "Профиль обновлён!";
 
         header("Location:/users");
     }

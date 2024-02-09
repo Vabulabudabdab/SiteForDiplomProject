@@ -29,6 +29,8 @@ class MediaController {
         $this->querybuilder->update("addUser", ['avatar' => $name], $id);
         $this->querybuilder->loadImage();
 
+        $_SESSION['successAdd'] = "Профиль обновлён!";
+
         header("Location:/users");
     }
 

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <?php if (!session_id()) {session_start();}?>
+<?php if(empty($_SESSION['Permission'] == "Admin")) {
+    header("Location:/users");
+    $_SESSION['notPerm'] = "У вас нет прав на посещении данной страницы";
+}?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

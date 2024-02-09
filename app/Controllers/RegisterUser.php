@@ -47,12 +47,14 @@ class RegisterUser {
 
         if ($getOne == true || $getSecond == true) {
             header("Location:/register");
+            $_SESSION['exists'] = "Данный пользователь уже существует!";
             exit;
         } else {
             $this->querybuilder->insert("addUser", ["workplace" => $workplace, "telephone" => $telephone, "adress" => $adress,
                 "email" => $email, "password" => $hashed_password, "status" => $status, "avatar" => "kot.jpg", "vk" => $vk, "telegram" => $telegram, "instagram" => $instagram, "name" => $name]);
 
                  $userId = $this->auth->register($email, $password, $name);
+
             header("Location:/login");
              }
         }

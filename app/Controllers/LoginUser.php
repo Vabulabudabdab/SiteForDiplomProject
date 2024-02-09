@@ -19,28 +19,28 @@ class LoginUser {
     public function loginUser() {
         $email = $_POST['email'];
         $password = $_POST['password'];
+
 //        $get = $this->querybuilder->selectPermission("addUser", ["permissions"], "Admin");
 
-//        $result = $this->querybuilder->getPerm("addUser", $test);
-//
-//
-//        $getSecond = $this->querybuilder->selectMail("users", ["email"], $email);
-//        var_dump($get);
 
+        $getPerm = $this->querybuilder->getAll("addUser");
 
-
-
-
-
-
-
+        foreach ($getPerm as $perm) {
+            if($perm['email'] == $email && $perm['permissions'] == "Admin"){
+                $_SESSION['Permission'] = "Admin";
+            } elseif($perm['email'] == $email && $perm['permissions'] == "user") {
+                $_SESSION['Permission'] = "user";
+            }
+        }
 
         try {
 
             $this->auth->login($email, $password);
             $_SESSION['login'] = $email;
-            var_dump($_SESSION['login']);
+//            var_dump($_SESSION['login']);
+//            var_dump($_SESSION['Permission']);
             header("Location:/users");
+
         }
         catch (\Delight\Auth\InvalidEmailException $e) {
             header("Location:/login");

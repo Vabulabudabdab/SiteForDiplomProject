@@ -50,16 +50,19 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/logout', ['App\Controllers\HomeController', 'logout']);
     $r->addRoute('GET', '/delete', ['App\Controllers\HomeController', 'delete']);
     $r->addRoute('GET', '/users/status', ['App\Controllers\HomeController', 'setStatus']);
-
+    $r->addRoute('GET', '/users/security', ['App\Controllers\HomeController', 'userSecurity']);
+    $r->addRoute('GET', '/users/edit', ['App\Controllers\HomeController', 'editUser']);
+    $r->addRoute('GET', '/users/profile', ['App\Controllers\HomeController', 'profile']);
     //Обработчики, ещё не умею с ними работать нормально, поэтому делаю так. Здесь back
+    //Только потом я понял, что могу всё это закинуть в 1 файл, но ради экономии времени не стал переделывать, ибо очень долго
     $r->addRoute('GET', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
     $r->addRoute("POST", '/Controllers/RegisterUser.php', ['App\Controllers\RegisterUser', 'registerUser']);
     $r->addRoute('POST', '/Controllers/LoginUser.php', ['App\Controllers\LoginUser', 'loginUser']);
     $r->addRoute('POST', '/Controllers/AddUserController.php', ['App\Controllers\AddUserController', 'addUser']);
     $r->addRoute('POST', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
-
-
-
+    $r->addRoute('GET', '/Controllers/SetUserStatus.php', ['App\Controllers\SetUserStatus', 'setStatus']);
+    $r->addRoute("POST", '/Controllers/UserSecurity.php', ['App\Controllers\UserSecurity', 'edit']);
+    $r->addRoute("GET", '/Controllers/UserEdit.php', ['App\Controllers\UserEdit', 'edit']);
 
 });
 

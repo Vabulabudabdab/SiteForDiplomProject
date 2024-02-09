@@ -38,12 +38,30 @@ class HomeController {
 
     }
 
+    public function profile() {
+        echo $this->templates->render('page_profile');
+    }
+
     public function media()
     {
         $id = $_GET['id'];
         $avatar = $_GET['avatar'];
 
         echo $this->templates->render('media');
+    }
+
+    public function editUser() {
+
+        $id = $_GET['id'];
+        $name = $_GET['name'];
+        $workplace = $_GET['workplace'];
+        $telephone = $_GET['telephone'];
+
+        echo $this->templates->render('edit');
+    }
+    public function userSecurity() {
+        $id = $_GET['id'];
+        echo $this->templates->render('security');
     }
 
     public function setStatus() {
@@ -64,6 +82,9 @@ class HomeController {
         $this->auth->logOut();
         $this->auth->destroySession();
     }
+
+
+
 
 
 }

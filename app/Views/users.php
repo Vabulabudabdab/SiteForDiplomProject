@@ -8,12 +8,10 @@ $username = "root";
 $password = "";
 
 $pdo = new PDO("$driver:host=$host; dbname=$database_name", $username, $password);
-
+$auth = new \Delight\Auth\Auth($pdo);
 $qb = new QueryBuilder($pdo);
 
 $get = $qb->getAll("addUser");
-
-
 
 ?>
 <!DOCTYPE html>
@@ -24,15 +22,15 @@ $get = $qb->getAll("addUser");
     <meta name="description" content="Chartist.html">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
-    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
-    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
-    <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="/css/vendors.bundle.css">
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="/css/app.bundle.css">
+    <link id="myskin" rel="stylesheet" media="screen, print" href="/css/skins/skin-master.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-solid.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-brands.css">
 </head>
     <body class="mod-bg-1 mod-nav-link">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
-            <a class="navbar-brand d-flex align-items-center fw-500" href="/users"><img alt="logo" class="d-inline-block align-top mr-2" src="img/logo.png"> Учебный проект</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand d-flex align-items-center fw-500" href="/users"><img alt="logo" class="d-inline-block align-top mr-2" src="/img/logo.png"> Учебный проект</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -59,13 +57,19 @@ $get = $qb->getAll("addUser");
             <div class="alert alert-success">
                 <?php echo $_SESSION['successAdd']; unset($_SESSION['successAdd']);?>
             </div>
-            <?php endif; ?>
+            <?php endif;?>
 
                 <?php if(!empty( $_SESSION['exstsUser'])): ?>
             <div class="alert alert-success">
                 <?php echo $_SESSION['exstsUser']; unset($_SESSION['exstsUser']);?>
             </div>
-            <?php endif; ?>
+            <?php endif;?>
+
+                <?php if(!empty( $_SESSION['notPerm'])):?>
+                    <div class="alert alert-success">
+                        <?php echo $_SESSION['notPerm']; unset($_SESSION['notPerm']);?>
+                    </div>
+            <?php endif;?>
             <div class="subheader">
                 <h1 class="subheader-title">
                     <i class='subheader-icon fal fa-users'></i> Список пользователей
@@ -74,7 +78,7 @@ $get = $qb->getAll("addUser");
             <div class="row">
                 <div class="col-xl-12">
 
-                    <?php if($_SESSION['login'] == "TheAdmin@gmail.com"):?>
+                    <?php if($_SESSION['Permission'] == "Admin"):?>
                     <a class="btn btn-success" href="/addUser">Добавить</a>
                     <?php endif;?>
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
@@ -94,8 +98,8 @@ $get = $qb->getAll("addUser");
             <div class="row" id="js-contacts">
 
                 <?php foreach ($get as $user):?>
-                <div class="col-xl-4">   <?php echo $_SESSION['Permission'];?>
-                    <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="<?= $user['name']?>>">
+                <div class="col-xl-4">
+                    <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="<?= $user['name'];?>">
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">
 
@@ -107,11 +111,13 @@ $get = $qb->getAll("addUser");
                                 <?php elseif ($user['status'] == "Не беспокоить"): ?>
                                           <span class="status status-danger mr-3">
                                 <?php endif;?>
+                                              <a href="/users/profile?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>&email=<?=$user['email'];?>&avatar=<?=$user['avatar'];?>">
                                     <span class="rounded-circle profile-image d-block " style="background-image:url('img/<?php echo $user['avatar'] ?>'); background-size: cover;"></span>
+                             </a>
                                 </span>
 
                                 <div class="info-card-text flex-1">
-                                        <?php if($_SESSION['login'] == "TheAdmin@gmail.com"):?>
+                                        <?php if($_SESSION['Permission'] == "Admin"):?>
                                       <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
 
 
@@ -122,13 +128,13 @@ $get = $qb->getAll("addUser");
                                     </a>
 
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.php?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
+                                        <a class="dropdown-item" href="users/edit?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="security.php?id=<?= $user['id']?>">
+                                         <a class="dropdown-item" href="users/security?id=<?= $user['id']?> &email=<?= $user['email'] ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="status.php?id=<?= $user['id']?>">
+                                        <a class="dropdown-item" href="users/status?id=<?= $user['id']?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
                                         <a class="dropdown-item" href="users/media?id=<?= $user['id']?> & avatar=<?= $user['avatar']?>">
@@ -143,7 +149,7 @@ $get = $qb->getAll("addUser");
 
                                     </div>
 
-                                        <?php elseif($_SESSION['login'] == $user['email']):?>
+                                        <?php elseif($_SESSION['login'] == $user['email'] && $_SESSION['Permission'] == "user"):?>
                                             <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
 
 
@@ -154,16 +160,16 @@ $get = $qb->getAll("addUser");
                                     </a>
 
                                             <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="/edit?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
+                                        <a class="dropdown-item" href="users/edit?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="/security?id=<?= $user['id']?>">
+                                        <a class="dropdown-item" href="users/security?id=<?= $user['id']?> &email=<?= $user['email'] ?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="/status?id=<?= $user['id']?>">
+                                        <a class="dropdown-item" href="users/status?id=<?= $user['id']?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="/media?id=<?= $user['id']?>&img=<?= $user['avatar']?>">
+                                        <a class="dropdown-item" href="users/media?id=<?= $user['id']?> & avatar=<?= $user['avatar']?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
@@ -213,7 +219,7 @@ $get = $qb->getAll("addUser");
                 </div>
                 <?php endforeach;?>
             </div>
-
+        </main>
         </footer>
 
     </body>

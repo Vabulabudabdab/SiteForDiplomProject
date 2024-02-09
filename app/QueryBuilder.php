@@ -122,6 +122,20 @@ Class QueryBuilder {
         $sth->execute($update->getBindValues());
     }
 
+    public function testUpdate($tableOne, $tableSec,$data, $email) {
+
+        $update = $this->queryFactory->newUpdate();
+
+        $update
+            ->table($tableOne, $tableSec)
+            ->cols($data)
+            ->where('email = :email', ['email'=>$email]);
+
+        $sth = $this->pdo->prepare($update->getStatement());
+
+        $sth->execute($update->getBindValues());
+    }
+
     public function delete($table, $id) {
         $delete = $this->queryFactory->newDelete();
 

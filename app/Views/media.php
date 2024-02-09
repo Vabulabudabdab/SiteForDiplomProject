@@ -1,4 +1,8 @@
 <?php if (!session_id()) {session_start();}?>
+<?php if(empty($_SESSION['login'])){
+    header("Location:/users");
+    $_SESSION['notPerm'] = "У вас нет прав на посещении данной страницы";
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/users">Главная <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

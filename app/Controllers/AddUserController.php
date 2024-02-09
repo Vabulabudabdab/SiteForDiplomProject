@@ -73,7 +73,7 @@ class AddUserController {
 
             $userId = $this->auth->register($email, $password, $name);
 
-            $_SESSION['successAdd'] = "Профиль успешно обновлён!";
+            $_SESSION['successAdd'] = "Пользователь успешно добавлен!";
             header("Location:/users");
         }
 
