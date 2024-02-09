@@ -21,24 +21,26 @@ class LoginUser {
         $password = $_POST['password'];
 //        $get = $this->querybuilder->selectPermission("addUser", ["permissions"], "Admin");
 
-
-
-        $test = $this->auth->getUserId();
-
-        $result = $this->querybuilder->getPerm("addUser", $test);
-
-
-        $getSecond = $this->querybuilder->selectMail("users", ["email"], $email);
+//        $result = $this->querybuilder->getPerm("addUser", $test);
+//
+//
+//        $getSecond = $this->querybuilder->selectMail("users", ["email"], $email);
 //        var_dump($get);
 
 
 
 
+
+
+
+
+
         try {
+
             $this->auth->login($email, $password);
             $_SESSION['login'] = $email;
+            var_dump($_SESSION['login']);
             header("Location:/users");
-
         }
         catch (\Delight\Auth\InvalidEmailException $e) {
             header("Location:/login");

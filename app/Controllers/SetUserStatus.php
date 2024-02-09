@@ -5,8 +5,7 @@ namespace App\Controllers;
 use App\QueryBuilder;
 use League\Plates\Engine;
 
-class MediaController {
-
+class SetUserStatus {
     private $querybuilder;
 
 

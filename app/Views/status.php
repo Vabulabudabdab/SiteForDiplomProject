@@ -1,3 +1,4 @@
+<?php if (!session_id()) {session_start();}?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +7,11 @@
     <meta name="description" content="Chartist.html">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
-    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
-    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
-    <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="/css/vendors.bundle.css">
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="/css/app.bundle.css">
+    <link id="myskin" rel="stylesheet" media="screen, print" href="/css/skins/skin-master.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-solid.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-brands.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
@@ -22,12 +23,15 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="app/Views/page_login.php">Войти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти</a>
-                </li>
+                <?php if(!empty($_SESSION['login'])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Выйти</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Войти</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -38,7 +42,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="../Controllers/AddUserController.php">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -51,6 +55,7 @@
                                     <div class="col-md-4">
                                         <!-- status -->
                                         <div class="form-group">
+                                            <input type="hidden" id="example-fileinput" class="form-control-file" name="id" value="<?php echo $_GET['id']?>">
                                             <label class="form-label" for="example-select">Выберите статус</label>
                                             <select class="form-control" id="example-select">
                                                 <option>Онлайн</option>

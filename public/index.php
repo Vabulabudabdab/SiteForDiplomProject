@@ -40,20 +40,26 @@ $container = $containerBuilder->build();
 
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+
+    //Здесь всё то, что рендерится, front
     $r->addRoute('GET', '/register', ['App\Controllers\HomeController', 'register']);
     $r->addRoute('GET', '/login', ['App\Controllers\HomeController', 'login']);
     $r->addRoute('GET', '/users', ['App\Controllers\HomeController', 'users']);
     $r->addRoute('GET', '/addUser', ['App\Controllers\HomeController', 'addUser']);
-    $r->addRoute('GET', '/media/', ['App\Controllers\HomeController', 'media']);
-
-    $r->addRoute('GET', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
-    $r->addRoute("POST", '/Controllers/RegisterUser.php', ['App\Controllers\RegisterUser', 'registerUser']);
-
-    $r->addRoute('POST', '/Controllers/LoginUser.php', ['App\Controllers\LoginUser', 'loginUser']);
-    $r->addRoute('POST', '/Controllers/AddUserController.php', ['App\Controllers\AddUserController', 'addUser']);
-
+    $r->addRoute('GET', '/users/media', ['App\Controllers\HomeController', 'media']);
     $r->addRoute('GET', '/logout', ['App\Controllers\HomeController', 'logout']);
     $r->addRoute('GET', '/delete', ['App\Controllers\HomeController', 'delete']);
+    $r->addRoute('GET', '/users/status', ['App\Controllers\HomeController', 'setStatus']);
+
+    //Обработчики, ещё не умею с ними работать нормально, поэтому делаю так. Здесь back
+    $r->addRoute('GET', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
+    $r->addRoute("POST", '/Controllers/RegisterUser.php', ['App\Controllers\RegisterUser', 'registerUser']);
+    $r->addRoute('POST', '/Controllers/LoginUser.php', ['App\Controllers\LoginUser', 'loginUser']);
+    $r->addRoute('POST', '/Controllers/AddUserController.php', ['App\Controllers\AddUserController', 'addUser']);
+    $r->addRoute('POST', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
+
+
+
 
 });
 

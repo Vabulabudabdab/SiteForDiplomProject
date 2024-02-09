@@ -1,5 +1,4 @@
 <?php if (!session_id()) {session_start();}?>
-
 <?php use App\QueryBuilder;
 error_reporting(0);
 $driver = "mysql";
@@ -13,6 +12,8 @@ $pdo = new PDO("$driver:host=$host; dbname=$database_name", $username, $password
 $qb = new QueryBuilder($pdo);
 
 $get = $qb->getAll("addUser");
+
+
 
 ?>
 <!DOCTYPE html>
@@ -91,8 +92,9 @@ $get = $qb->getAll("addUser");
             </div>
 
             <div class="row" id="js-contacts">
+
                 <?php foreach ($get as $user):?>
-                <div class="col-xl-4">
+                <div class="col-xl-4">   <?php echo $_SESSION['Permission'];?>
                     <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="<?= $user['name']?>>">
                         <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                             <div class="d-flex flex-row align-items-center">
@@ -129,7 +131,7 @@ $get = $qb->getAll("addUser");
                                         <a class="dropdown-item" href="status.php?id=<?= $user['id']?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                        <a class="dropdown-item" href="/media?id=<?= $user['id']?>&img=<?= $user['avatar']?>">
+                                        <a class="dropdown-item" href="users/media?id=<?= $user['id']?> & avatar=<?= $user['avatar']?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
@@ -152,13 +154,13 @@ $get = $qb->getAll("addUser");
                                     </a>
 
                                             <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.php?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
+                                        <a class="dropdown-item" href="/edit?id=<?= $user['id'];?>&name=<?= $user['name'];?>&workplace=<?= $user['workplace'];?>&telephone=<?= $user['telephone'];?>&adress=<?=$user['adress'];?>">
                                             <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                        <a class="dropdown-item" href="security.php?id=<?= $user['id']?>">
+                                        <a class="dropdown-item" href="/security?id=<?= $user['id']?>">
                                             <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                        <a class="dropdown-item" href="status.php?id=<?= $user['id']?>">
+                                        <a class="dropdown-item" href="/status?id=<?= $user['id']?>">
                                             <i class="fa fa-sun"></i>
                                         Установить статус</a>
                                         <a class="dropdown-item" href="/media?id=<?= $user['id']?>&img=<?= $user['avatar']?>">

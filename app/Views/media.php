@@ -7,15 +7,15 @@
     <meta name="description" content="Chartist.html">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
-    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
-    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
-    <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
-    <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="/css/vendors.bundle.css">
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="/css/app.bundle.css">
+    <link id="myskin" rel="stylesheet" media="screen, print" href="/css/skins/skin-master.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-solid.css">
+    <link rel="stylesheet" media="screen, print" href="/css/fa-brands.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
-        <a class="navbar-brand d-flex align-items-center fw-500" href="users.php"><img alt="logo" class="d-inline-block align-top mr-2" src="img/logo.png"> Учебный проект</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand d-flex align-items-center fw-500" href="/users"><img alt="logo" class="d-inline-block align-top mr-2" src="/img/logo.png"> Учебный проект</a> <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -23,12 +23,15 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="app/Views/page_login.php">Войти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти</a>
-                </li>
+                <?php if(!empty($_SESSION['login'])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Выйти</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Войти</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -39,7 +42,7 @@
             </h1>
 
         </div>
-        <form action="../Controllers/MediaController.php" method="post" enctype='multipart/form-data'>
+        <form action="../Controllers/MediaController.php?id=<?= $_GET['id']?>" method="post" enctype='multipart/form-data'>
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -47,14 +50,15 @@
                             <div class="panel-hdr">
                                 <h2>Текущий аватар</h2>
                             </div>
+                            <input type="hidden" id="example-fileinput" class="form-control-file" name="id" value="<?php echo $_GET['id']?>">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <img src="img/demo/authors/josh.png" alt="" class="img-responsive" width="200">
+                                    <img src="/img/<?php echo $_GET['avatar'] ?>" alt="" class="img-responsive" width="200">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Выберите аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input type="file" id="example-fileinput" class="form-control-file" name="file">
                                 </div>
 
 

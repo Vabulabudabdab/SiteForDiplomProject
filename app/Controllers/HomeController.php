@@ -38,8 +38,17 @@ class HomeController {
 
     }
 
-    public function media() {
-        echo $this->templates->render("media");
+    public function media()
+    {
+        $id = $_GET['id'];
+        $avatar = $_GET['avatar'];
+
+        echo $this->templates->render('media');
+    }
+
+    public function setStatus() {
+        $id = $_GET['id'];
+        echo $this->templates->render('status');
     }
 
     public function delete() {
@@ -55,5 +64,6 @@ class HomeController {
         $this->auth->logOut();
         $this->auth->destroySession();
     }
+
 
 }

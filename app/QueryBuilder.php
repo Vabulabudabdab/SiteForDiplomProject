@@ -115,22 +115,7 @@ Class QueryBuilder {
         $update
             ->table($table)
             ->cols($data)
-            ->where('id = :id');
-
-        $sth = $this->pdo->prepare($update->getStatement());
-
-        $sth->execute($update->getBindValues());
-    }
-
-    public function updateAva($table,$data, $id, $avatar) {
-
-        $update = $this->queryFactory->newUpdate();
-
-        $update
-            ->table($table)
-            ->cols($data)
-            ->set('avatar = :avatar,', ['avatar' => $avatar])
-            ->where('id = :id', ['id' => $id]);
+            ->where('id = :id', ['id'=>$id]);
 
         $sth = $this->pdo->prepare($update->getStatement());
 
@@ -147,5 +132,22 @@ Class QueryBuilder {
         $sth = $this->pdo->prepare($delete->getStatement());
 
         $sth->execute($delete->getBindValues());
+    }
+
+    public function loadImage()
+    {
+        if (!empty($_FILES['file'])) {
+            $file = $_FILES['file'];
+            $filename = $file['name'];
+            $pathFile = '../img/' . $filename;
+
+            d($file);
+            d($filename);
+            d($pathFile);
+
+            if (!move_uploaded_file($file['tmp_name'], $pathFile)) {
+                echo 'Ошибка загрузки файла';
+            }
+        }
     }
 }
