@@ -23,7 +23,6 @@ class HomeController {
     }
 
     public function login() {
-//        $this->auth->admin()->addRoleForUserById(1, \Delight\Auth\Role::ADMIN);
 
         echo $this->templates->render('page_login');
 

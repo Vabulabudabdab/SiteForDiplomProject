@@ -20,9 +20,6 @@ class LoginUser {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-//        $get = $this->querybuilder->selectPermission("addUser", ["permissions"], "Admin");
-
-
         $getPerm = $this->querybuilder->getAll("addUser");
 
         foreach ($getPerm as $perm) {
@@ -37,8 +34,7 @@ class LoginUser {
 
             $this->auth->login($email, $password);
             $_SESSION['login'] = $email;
-//            var_dump($_SESSION['login']);
-//            var_dump($_SESSION['Permission']);
+
             header("Location:/users");
 
         }

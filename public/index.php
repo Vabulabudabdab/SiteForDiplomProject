@@ -28,12 +28,6 @@ $containerBuilder->addDefinitions([
     Auth::class => function ($container) {
         return new Auth($container->get('PDO'));
     },
-
-//    App\QueryBuilder::class => function() {
-//      return new App\QueryBuilder();
-//    }
-
-
 ]);
 
 $container = $containerBuilder->build();
@@ -42,6 +36,7 @@ $container = $containerBuilder->build();
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     //Здесь всё то, что рендерится, front
+
     $r->addRoute('GET', '/register', ['App\Controllers\HomeController', 'register']);
     $r->addRoute('GET', '/login', ['App\Controllers\HomeController', 'login']);
     $r->addRoute('GET', '/users', ['App\Controllers\HomeController', 'users']);
@@ -53,8 +48,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/users/security', ['App\Controllers\HomeController', 'userSecurity']);
     $r->addRoute('GET', '/users/edit', ['App\Controllers\HomeController', 'editUser']);
     $r->addRoute('GET', '/users/profile', ['App\Controllers\HomeController', 'profile']);
+
     //Обработчики, ещё не умею с ними работать нормально, поэтому делаю так. Здесь back
-    //Только потом я понял, что могу всё это закинуть в 1 файл, но ради экономии времени не стал переделывать, ибо очень долго
+    //Только потом я понял, что могу всё это закинуть в 1 файл в виде функций, но ради экономии времени не стал переделывать, ибо очень долго
     $r->addRoute('GET', '/Controllers/MediaController.php', ['App\Controllers\MediaController', 'media']);
     $r->addRoute("POST", '/Controllers/RegisterUser.php', ['App\Controllers\RegisterUser', 'registerUser']);
     $r->addRoute('POST', '/Controllers/LoginUser.php', ['App\Controllers\LoginUser', 'loginUser']);
@@ -66,11 +62,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
 });
 
-// Fetch method and URI from somewhere
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
 
-// Strip query string (?foo=bar) and decode URI
 if (false !== $pos = strpos($uri, '?')) {
     $uri = substr($uri, 0, $pos);
 }
